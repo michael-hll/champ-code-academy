@@ -1,16 +1,25 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../stores/authStore';
 import Button from '../components/common/Button';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { login, isLoading, error, clearError } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock login - navigate to dashboard
-    navigate('/dashboard');
+    clearError();
+
+    try {
+      await login(email, password);
+      navigate('/dashboard');
+    } catch (err) {
+      // Error is already set in the store
+      console.error('Login failed:', err);
+    }
   };
 
   return (
@@ -32,6 +41,13 @@ export default function LoginPage() {
           </h2>
 
           <form onSubmit={handleLogin} className="space-y-5">
+            {/* Error Message */}
+            {error && (
+              <div className="p-4 bg-red-50 border-2 border-red-200 rounded-lg">
+                <p className="text-sm font-semibold text-red-700">❌ {error}</p>
+              </div>
+            )}
+
             {/* Email Input */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -74,8 +90,8 @@ export default function LoginPage() {
             </div>
 
             {/* Login Button */}
-            <Button type="submit" variant="primary" size="lg" fullWidth>
-              🚀 Login to Dashboard
+            <Button type="submit" variant="primary" size="lg" fullWidth disabled={isLoading}>
+              {isLoading ? '⏳ Logging in...' : '🚀 Login to Dashboard'}
             </Button>
           </form>
 

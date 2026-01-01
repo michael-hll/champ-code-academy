@@ -1,9 +1,27 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../stores/authStore';
 
 export default function TopNavigation() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuthStore((state) => ({
+    user: state.user,
+    logout: state.logout,
+  }));
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
+
+  // Get user initials for avatar
+  const userInitials = user?.name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase() || 'U';
 
   return (
     <nav className="bg-white border-b-4 border-sky-500 shadow-md sticky top-0 z-50">
@@ -50,19 +68,19 @@ export default function TopNavigation() {
             </button>
             <div className="flex items-center space-x-2 pl-3 border-l border-gray-300">
               <div className="w-10 h-10 rounded-full bg-linear-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white font-bold">
-                ST
+                {userInitials}
               </div>
               <div className="hidden md:block">
-                <p className="text-sm font-semibold text-gray-800">Sarah Tan</p>
+                <p className="text-sm font-semibold text-gray-800">{user?.name || 'Guest'}</p>
                 <p className="text-xs text-gray-500">Tutor</p>
               </div>
             </div>
-            <Link
-              to="/"
+            <button
+              onClick={handleLogout}
               className="ml-2 px-3 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 rounded-lg transition-colors"
             >
               Logout
-            </Link>
+            </button>
           </div>
         </div>
       </div>
