@@ -58,13 +58,13 @@ export default function LessonCard({ lesson, onLessonUpdate }: LessonCardProps) 
           {lesson.type.toUpperCase()}
         </Badge>
         <div className="text-right">
-          <p className="text-sm font-semibold text-gray-700">{formattedDate}</p>
-          <p className="text-xs text-gray-500">{formattedTime}</p>
+          <p className="text-sm font-semibold text-gray-700 dark:text-dark-text">{formattedDate}</p>
+          <p className="text-xs text-gray-500 dark:text-dark-muted">{formattedTime}</p>
         </div>
       </div>
 
       {/* Subject */}
-      <h3 className="text-lg font-bold text-gray-800 mb-4 line-clamp-2">
+      <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 line-clamp-2">
         📚 {lesson.subject}
       </h3>
 
@@ -72,7 +72,7 @@ export default function LessonCard({ lesson, onLessonUpdate }: LessonCardProps) 
       <div className="space-y-2 mb-4">
         <div className="flex items-center text-sm">
           <span className="text-lg mr-2">👥</span>
-          <span className="text-gray-700 font-medium">
+          <span className="text-gray-700 dark:text-dark-text font-medium">
             {lesson.students.length > 0
               ? lesson.students.join(', ')
               : 'No students yet'}
@@ -80,7 +80,7 @@ export default function LessonCard({ lesson, onLessonUpdate }: LessonCardProps) 
         </div>
         <div className="flex items-center text-sm">
           <span className="text-lg mr-2">🎯</span>
-          <span className="text-gray-700 font-medium">
+          <span className="text-gray-700 dark:text-dark-text font-medium">
             {lesson.students.length > 1 ? 'Group Lesson' :
               lesson.students.length === 1 ? '1-on-1 Lesson' :
                 'Open Slot'}
@@ -89,13 +89,13 @@ export default function LessonCard({ lesson, onLessonUpdate }: LessonCardProps) 
         {lesson.tutor && (
           <div className="flex items-center text-sm">
             <span className="text-lg mr-2">👨‍🏫</span>
-            <span className="text-gray-700 font-medium">{lesson.tutor}</span>
+            <span className="text-gray-700 dark:text-dark-text font-medium">{lesson.tutor}</span>
           </div>
         )}
       </div>
 
       {/* Action Button */}
-      <div className="pt-4 border-t border-gray-200">
+      <div className="pt-4 border-t border-gray-200 dark:border-dark-border">
         {lesson.status === 'Available' ? (
           <Button
             variant="success"

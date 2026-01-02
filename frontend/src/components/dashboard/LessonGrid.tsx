@@ -11,9 +11,9 @@ interface LessonGridProps {
 export default function LessonGrid({ lessons, onLessonUpdate, groupByMonth = true }: LessonGridProps) {
   if (lessons.length === 0) {
     return (
-      <div className="bg-white rounded-xl shadow-md border border-gray-200 p-12 text-center">
+      <div className="bg-white dark:bg-dark-surface rounded-xl shadow-md border border-gray-200 p-12 text-center">
         <div className="text-6xl mb-4">📭</div>
-        <h3 className="text-2xl font-bold text-gray-700 mb-2">No lessons found</h3>
+        <h3 className="text-2xl font-bold text-gray-700 dark:text-dark-text mb-2">No lessons found</h3>
         <p className="text-gray-500">
           Try adjusting your filters or check back later for new lessons!
         </p>

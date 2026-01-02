@@ -1,5 +1,31 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Define custom colors for dark mode using Tailwind v4 syntax */
+  --color-dark-bg: #0f172a;
+  --color-dark-surface: #1e293b;
+  --color-dark-border: #334155;
+  --color-dark-text: #f1f5f9;
+  --color-dark-muted: #94a3b8;
+}
+
+@layer base {
+  body {
+    background-color: rgb(249 250 251);
+    /* gray-50 */
+    color: rgb(17 24 39);
+    /* gray-900 */
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .dark body {
+    background-color: var(--color-dark-bg);
+    color: var(--color-dark-text);
+  }
+}
+
 @layer utilities {
   @keyframes fadeIn {
     from {

@@ -77,11 +77,11 @@ export default function FilterControls({ onFilterChange }: FilterControlsProps) 
   }, []);
 
   return (
-    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 mb-6">
+    <div className="bg-white dark:bg-dark-surface rounded-xl shadow-md border border-gray-200 dark:border-dark-border p-6 mb-6 transition-colors duration-300">
       <div className="space-y-4">
         {/* Preset Buttons */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-3">
+          <label className="block text-sm font-semibold text-gray-700 dark:text-dark-text mb-3">
             📅 Date Range
           </label>
           <div className="flex flex-wrap gap-2">
@@ -89,7 +89,7 @@ export default function FilterControls({ onFilterChange }: FilterControlsProps) 
               onClick={() => handlePresetChange('current')}
               className={`px-4 py-2.5 rounded-lg font-semibold transition-all ${selectedPreset === 'current'
                 ? 'bg-sky-500 text-white shadow-md'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-dark-bg dark:text-dark-text dark:hover:bg-dark-border'
                 }`}
             >
               Current Month
@@ -98,7 +98,7 @@ export default function FilterControls({ onFilterChange }: FilterControlsProps) 
               onClick={() => handlePresetChange('six-months')}
               className={`px-4 py-2.5 rounded-lg font-semibold transition-all ${selectedPreset === 'six-months'
                 ? 'bg-sky-500 text-white shadow-md'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-dark-bg dark:text-dark-text dark:hover:bg-dark-border'
                 }`}
             >
               6 Months
@@ -107,7 +107,7 @@ export default function FilterControls({ onFilterChange }: FilterControlsProps) 
               onClick={() => handlePresetChange('all')}
               className={`px-4 py-2.5 rounded-lg font-semibold transition-all ${selectedPreset === 'all'
                 ? 'bg-sky-500 text-white shadow-md'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-dark-bg dark:text-dark-text dark:hover:bg-dark-border'
                 }`}
             >
               All
@@ -116,7 +116,7 @@ export default function FilterControls({ onFilterChange }: FilterControlsProps) 
               onClick={() => handlePresetChange('custom')}
               className={`px-4 py-2.5 rounded-lg font-semibold transition-all ${selectedPreset === 'custom'
                 ? 'bg-purple-500 text-white shadow-md'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-dark-bg dark:text-dark-text dark:hover:bg-dark-border'
                 }`}
             >
               📆 Custom
@@ -126,30 +126,30 @@ export default function FilterControls({ onFilterChange }: FilterControlsProps) 
 
         {/* Custom Date Range (shown only when Custom is selected) */}
         {selectedPreset === 'custom' && (
-          <div className="pt-4 border-t border-gray-200">
-            <label className="block text-sm font-semibold text-gray-700 mb-3">
+          <div className="pt-4 border-t border-gray-200 dark:border-dark-border">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-dark-text mb-3">
               Select Custom Date Range
             </label>
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="flex-1">
-                <label className="block text-xs text-gray-600 mb-1">Start Date</label>
+                <label className="block text-xs text-gray-600 dark:text-dark-muted mb-1">Start Date</label>
                 <input
                   type="date"
                   value={startDate}
                   onChange={(e) => handleStartDateChange(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-lg border-2 border-gray-300 focus:border-purple-500 focus:outline-none transition-colors"
+                  className="w-full px-4 py-2.5 rounded-lg border-2 border-gray-300 dark:border-dark-border dark:bg-dark-bg dark:text-dark-text focus:border-purple-500 focus:outline-none transition-colors"
                 />
               </div>
               <div className="flex items-end justify-center pb-2">
                 <span className="text-gray-400 font-bold">→</span>
               </div>
               <div className="flex-1">
-                <label className="block text-xs text-gray-600 mb-1">End Date</label>
+                <label className="block text-xs text-gray-600 dark:text-dark-muted mb-1">End Date</label>
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => handleEndDateChange(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-lg border-2 border-gray-300 focus:border-purple-500 focus:outline-none transition-colors"
+                  className="w-full px-4 py-2.5 rounded-lg border-2 border-gray-300 dark:border-dark-border dark:bg-dark-bg dark:text-dark-text focus:border-purple-500 focus:outline-none transition-colors"
                 />
               </div>
             </div>

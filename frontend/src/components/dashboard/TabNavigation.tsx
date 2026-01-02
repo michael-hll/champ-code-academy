@@ -20,21 +20,21 @@ export default function TabNavigation({ activeTab, onTabChange, counts }: TabNav
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-md border border-gray-200 mb-6 overflow-x-auto scrollbar-hide">
+    <div className="bg-white dark:bg-dark-surface rounded-xl shadow-md border border-gray-200 dark:border-dark-border mb-6 overflow-x-auto scrollbar-hide transition-colors duration-300">
       <div className="flex min-w-max sm:min-w-0">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`flex-1 min-w-[140px] sm:min-w-0 px-6 py-4 font-semibold text-center transition-all duration-200 border-b-4 whitespace-nowrap ${activeTab === tab.id
-              ? 'border-sky-500 text-sky-600 bg-sky-50'
-              : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+            className={`flex-1 min-w-35 sm:min-w-0 px-6 py-4 font-semibold text-center transition-all duration-200 border-b-4 whitespace-nowrap ${activeTab === tab.id
+              ? 'border-sky-500 text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-dark-bg'
+              : 'border-transparent text-gray-600 dark:text-dark-muted hover:bg-gray-50 dark:hover:bg-dark-bg hover:text-gray-800 dark:hover:text-dark-text'
               }`}
           >
             <span className="text-xl mr-2">{tab.icon}</span>
             <span className="hidden sm:inline">{tab.label}</span>
             <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
-            <span className={`ml-2 px-2.5 py-0.5 rounded-full text-xs font-bold ${activeTab === tab.id ? 'bg-sky-500 text-white' : 'bg-gray-200 text-gray-700'
+            <span className={`ml-2 px-2.5 py-0.5 rounded-full text-xs font-bold ${activeTab === tab.id ? 'bg-sky-500 text-white' : 'bg-gray-200 dark:bg-dark-border text-gray-700 dark:text-dark-text'
               }`}>
               {tab.count}
             </span>

@@ -1,12 +1,12 @@
 import DashboardLayout from '../components/layout/DashboardLayout';
 
-export default function SchedulePage() {
+export default function CalendarPage() {
   return (
     <DashboardLayout>
       <div className="text-center py-20">
         <div className="text-8xl mb-6">📅</div>
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
-          Schedule View
+          Calendar View
         </h1>
         <p className="text-xl text-gray-600 mb-8">
           Calendar view coming soon! 🚀

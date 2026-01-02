@@ -46,16 +46,16 @@ export default function Dialog({ isOpen, onClose, title, children, footer }: Dia
       />
 
       {/* Dialog */}
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-hidden flex flex-col animate-scaleIn">
+      <div className="relative bg-white dark:bg-dark-surface rounded-2xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-hidden flex flex-col animate-scaleIn">
         {/* Header */}
-        <div className="px-8 py-6 border-b border-gray-100 bg-linear-to-r from-sky-50 to-purple-50">
+        <div className="px-8 py-6 border-b border-gray-100 dark:border-dark-border bg-linear-to-r from-sky-50 to-purple-50 dark:from-dark-bg dark:to-dark-bg">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
               {title}
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center transition-all duration-200 text-2xl leading-none"
+              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-border rounded-full w-8 h-8 flex items-center justify-center transition-all duration-200 text-2xl leading-none"
               aria-label="Close"
             >
               ×
@@ -64,13 +64,13 @@ export default function Dialog({ isOpen, onClose, title, children, footer }: Dia
         </div>
 
         {/* Body */}
-        <div className="px-8 py-6 overflow-y-auto flex-1">
+        <div className="px-8 py-6 overflow-y-auto flex-1 dark:text-dark-text">
           {children}
         </div>
 
         {/* Footer */}
         {footer && (
-          <div className="px-8 py-5 border-t border-gray-100 bg-gray-50">
+          <div className="px-8 py-5 border-t border-gray-100 dark:border-dark-border bg-gray-50 dark:bg-dark-bg">
             {footer}
           </div>
         )}
@@ -132,7 +132,7 @@ export function ConfirmDialog({
       }
     >
       <div className="space-y-4">
-        <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
+        <p className="text-gray-700 dark:text-dark-text text-lg leading-relaxed whitespace-pre-line">
           {message}
         </p>
       </div>
