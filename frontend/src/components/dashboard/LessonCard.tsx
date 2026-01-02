@@ -9,7 +9,7 @@ import { lessonService } from '../../services/lessonService';
 
 interface LessonCardProps {
   lesson: Lesson;
-  onLessonUpdate?: () => void;
+  onLessonUpdate?: (lessonId: string) => void;
 }
 
 export default function LessonCard({ lesson, onLessonUpdate }: LessonCardProps) {
@@ -36,7 +36,7 @@ export default function LessonCard({ lesson, onLessonUpdate }: LessonCardProps) 
       setShowConfirmDialog(false);
       // Refresh the dashboard data
       if (onLessonUpdate) {
-        onLessonUpdate();
+        onLessonUpdate(lesson.id);
       }
     } catch (error: any) {
       console.error('Failed to take class:', error);

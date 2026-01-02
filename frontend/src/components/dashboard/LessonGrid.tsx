@@ -4,7 +4,7 @@ import { groupLessonsByMonth } from '../../utils/dateHelpers';
 
 interface LessonGridProps {
   lessons: Lesson[];
-  onLessonUpdate?: () => void;
+  onLessonUpdate?: (lessonId: string) => void;
   groupByMonth?: boolean;
 }
 

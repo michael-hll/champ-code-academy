@@ -1,49 +1,34 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import FilterControls from '../components/dashboard/FilterControls';
 import TabNavigation from '../components/dashboard/TabNavigation';
 import LessonGrid from '../components/dashboard/LessonGrid';
-import type { TabType, Lesson } from '../types';
-import { lessonService } from '../services/lessonService';
+import type { TabType } from '../types';
+import { useLessonStore } from '../stores/lessonStore';
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<TabType>('today');
-  const [lessons, setLessons] = useState<Lesson[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [dateFilter, setDateFilter] = useState<{ startDate: string | null; endDate: string | null }>({
-    startDate: null,
-    endDate: null,
-  });
 
-  // Fetch lessons from API with date filters
-  const fetchLessons = async (startDate?: string | null, endDate?: string | null) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const params: any = {};
-      if (startDate) params.startDate = startDate;
-      if (endDate) params.endDate = endDate;
-
-      const data = await lessonService.getLessons(params);
-      setLessons(data);
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to load lessons');
-      console.error('Error fetching lessons:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Get lessons state from store
+  const lessons = useLessonStore((state) => state.lessons);
+  const isLoading = useLessonStore((state) => state.isLoading);
+  const error = useLessonStore((state) => state.error);
+  const fetchLessons = useLessonStore((state) => state.fetchLessons);
+  const updateLessonStatus = useLessonStore((state) => state.updateLessonStatus);
+  const refreshLessons = useLessonStore((state) => state.refreshLessons);
 
   // Handle filter changes
   const handleFilterChange = (startDate: string | null, endDate: string | null) => {
-    setDateFilter({ startDate, endDate });
-    fetchLessons(startDate, endDate);
+    fetchLessons({ startDate, endDate });
   };
 
-  useEffect(() => {
-    // Initial fetch will be triggered by FilterControls on mount
-  }, []);
+  // Handle lesson update (after "Take Class")
+  const handleLessonUpdate = async (lessonId: string) => {
+    // Optimistically update the lesson status
+    updateLessonStatus(lessonId, 'Confirmed');
+    // Then refresh to get accurate data from server
+    await refreshLessons();
+  };
 
   // Filter lessons based on active tab
   const filteredLessons = lessons.filter((lesson) => {
@@ -111,7 +96,7 @@ export default function DashboardPage() {
       {!isLoading && !error && (
         <LessonGrid
           lessons={filteredLessons}
-          onLessonUpdate={() => fetchLessons(dateFilter.startDate, dateFilter.endDate)}
+          onLessonUpdate={handleLessonUpdate}
           groupByMonth={activeTab !== 'today'}
         />
       )}
