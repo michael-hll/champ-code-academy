@@ -11,7 +11,6 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    clearError();
 
     try {
       await login(email, password);
@@ -20,6 +19,16 @@ export default function LoginPage() {
       // Error is already set in the store
       console.error('Login failed:', err);
     }
+  };
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    if (error) clearError();
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+    if (error) clearError();
   };
 
   return (
@@ -56,7 +65,7 @@ export default function LoginPage() {
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => handleEmailChange(e.target.value)}
                 placeholder="tutor@champcode.com"
                 className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-sky-500 focus:outline-none transition-colors text-gray-800"
                 required
@@ -71,7 +80,7 @@ export default function LoginPage() {
               <input
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => handlePasswordChange(e.target.value)}
                 placeholder="Enter your password"
                 className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-sky-500 focus:outline-none transition-colors text-gray-800"
                 required

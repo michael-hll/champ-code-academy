@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
   error: null,
 
   login: async (email: string, password: string) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true });
     try {
       const response = await authService.login({ email, password });
 
@@ -38,6 +38,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
         accessToken: response.accessToken,
         isAuthenticated: true,
         isLoading: false,
+        error: null,
       });
     } catch (error: any) {
       set({
