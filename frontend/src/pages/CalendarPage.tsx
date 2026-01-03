@@ -4,7 +4,7 @@ import DashboardLayout from '../components/layout/DashboardLayout';
 import CalendarHeader from '../components/calendar/CalendarHeader';
 import CalendarGrid from '../components/calendar/CalendarGrid';
 import DayLessonsDialog from '../components/calendar/DayLessonsDialog';
-import { useLessonStore } from '../stores/lessonStore';
+import { useLessons, useTakeLesson } from '../hooks/useLessons';
 import { generateCalendarDays, getLessonsForDay } from '../utils/dateHelpers';
 import type { Lesson } from '../types';
 
@@ -14,29 +14,29 @@ export default function CalendarPage() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedDayLessons, setSelectedDayLessons] = useState<Lesson[]>([]);
 
-  // Get lessons from store
-  const lessons = useLessonStore((state) => state.lessons);
-  const isLoading = useLessonStore((state) => state.isLoading);
-  const error = useLessonStore((state) => state.error);
-  const fetchLessons = useLessonStore((state) => state.fetchLessons);
-  const refreshLessons = useLessonStore((state) => state.refreshLessons);
+  // Calculate date range for current month
+  const monthStart = startOfMonth(currentDate);
+  const monthEnd = endOfMonth(currentDate);
+  const startDate = format(monthStart, 'yyyy-MM-dd');
+  const endDate = format(monthEnd, 'yyyy-MM-dd');
 
-  // Fetch lessons for the current month when month changes
-  useEffect(() => {
-    const monthStart = startOfMonth(currentDate);
-    const monthEnd = endOfMonth(currentDate);
-
-    const startDate = format(monthStart, 'yyyy-MM-dd');
-    const endDate = format(monthEnd, 'yyyy-MM-dd');
-
-    fetchLessons({ startDate, endDate });
-  }, [currentDate, fetchLessons]);
+  // Use React Query to fetch lessons for calendar (separate cache from dashboard)
+  const { data: lessons = [], isLoading, error } = useLessons({ startDate, endDate });
+  const takeLessonMutation = useTakeLesson();
 
   // Generate calendar days for the current month
   const calendarDays = generateCalendarDays(
     currentDate.getFullYear(),
     currentDate.getMonth()
   );
+
+  // Auto-update dialog lessons when cache updates (after mutation)
+  useEffect(() => {
+    if (selectedDate && isDialogOpen) {
+      const updatedDayLessons = getLessonsForDay(lessons, selectedDate);
+      setSelectedDayLessons(updatedDayLessons);
+    }
+  }, [lessons, selectedDate, isDialogOpen]);
 
   // Navigation handlers
   const handlePreviousMonth = () => {
@@ -72,16 +72,9 @@ export default function CalendarPage() {
     setSelectedDayLessons([]);
   };
 
-  const handleLessonUpdate = async () => {
-    // Refresh lessons after update
-    await refreshLessons();
-
-    // Update the dialog with refreshed lessons for the selected day
-    if (selectedDate) {
-      const updatedLessons = useLessonStore.getState().lessons;
-      const updatedDayLessons = getLessonsForDay(updatedLessons, selectedDate);
-      setSelectedDayLessons(updatedDayLessons);
-    }
+  const handleLessonUpdate = async (lessonId: string) => {
+    // Mutation will trigger refetch, and useEffect will update dialog
+    await takeLessonMutation.mutateAsync(lessonId);
   };
 
   return (
@@ -117,7 +110,7 @@ export default function CalendarPage() {
       {/* Error State */}
       {error && !isLoading && (
         <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center">
-          <p className="text-red-600 dark:text-red-400 font-semibold mb-2">❌ {error}</p>
+          <p className="text-red-600 dark:text-red-400 font-semibold mb-2">❌ {error instanceof Error ? error.message : 'Failed to load lessons'}</p>
           <button
             onClick={() => window.location.reload()}
             className="text-sm text-red-700 dark:text-red-300 hover:text-red-800 dark:hover:text-red-200 underline"

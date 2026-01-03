@@ -2,6 +2,10 @@ import { create } from 'zustand';
 import type { Lesson } from '../types';
 import { lessonService } from '../services/lessonService';
 
+// NOTE: Currently the system using the React Query based hooks (useLessons, useTakeLesson).
+// This Zustand store is prepared for initial usage, but later though for the server state 
+// management React Query is more suitable. This store can be used for local state if needed.
+
 interface LessonState {
   lessons: Lesson[];
   isLoading: boolean;

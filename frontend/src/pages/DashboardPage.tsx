@@ -4,30 +4,27 @@ import FilterControls from '../components/dashboard/FilterControls';
 import TabNavigation from '../components/dashboard/TabNavigation';
 import LessonGrid from '../components/dashboard/LessonGrid';
 import type { TabType } from '../types';
-import { useLessonStore } from '../stores/lessonStore';
+import { useLessons, useTakeLesson } from '../hooks/useLessons';
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<TabType>('today');
+  const [dateRange, setDateRange] = useState<{ startDate: string | null; endDate: string | null }>({
+    startDate: null,
+    endDate: null,
+  });
 
-  // Get lessons state from store
-  const lessons = useLessonStore((state) => state.lessons);
-  const isLoading = useLessonStore((state) => state.isLoading);
-  const error = useLessonStore((state) => state.error);
-  const fetchLessons = useLessonStore((state) => state.fetchLessons);
-  const updateLessonStatus = useLessonStore((state) => state.updateLessonStatus);
-  const refreshLessons = useLessonStore((state) => state.refreshLessons);
+  // Use React Query to fetch lessons for dashboard
+  const { data: lessons = [], isLoading, error } = useLessons(dateRange);
+  const takeLessonMutation = useTakeLesson();
 
   // Handle filter changes
   const handleFilterChange = (startDate: string | null, endDate: string | null) => {
-    fetchLessons({ startDate, endDate });
+    setDateRange({ startDate, endDate });
   };
 
   // Handle lesson update (after "Take Class")
   const handleLessonUpdate = async (lessonId: string) => {
-    // Optimistically update the lesson status
-    updateLessonStatus(lessonId, 'Confirmed');
-    // Then refresh to get accurate data from server
-    await refreshLessons();
+    await takeLessonMutation.mutateAsync(lessonId);
   };
 
   // Filter lessons based on active tab
@@ -82,7 +79,7 @@ export default function DashboardPage() {
       {/* Error State */}
       {error && !isLoading && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-          <p className="text-red-600 font-semibold mb-2">❌ {error}</p>
+          <p className="text-red-600 font-semibold mb-2">❌ {error instanceof Error ? error.message : 'Failed to load lessons'}</p>
           <button
             onClick={() => window.location.reload()}
             className="text-sm text-red-700 hover:text-red-800 underline"
