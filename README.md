@@ -2,6 +2,29 @@
 
 A modern tutor portal frontend built with React, TypeScript, and TailwindCSS v4. This application allows tutors to manage their teaching schedules, view lessons across different categories, and take on available classes.
 
+## Demo
+
+Github Pages: <https://michael-hll.github.io/champ-code-academy>
+
+- **Login Page** - Using given username/password to login to the system
+- **Dashboard Page**
+  - Date Filter
+    - Current Month Filter
+    - 6 Month Filter (Previous 3 + Future 3)
+    - All Filter
+    - Custom Filter (StartDate/EndDate)
+  - Lessons are separated by their type
+  - The "Available" lessons can click the "Take this class" button, then move
+    it to the "Upcoming" category (If you have no more to click then re-access the app link)
+- **Calendar Page**
+  - Lessons are clearly listed by date and type
+  - You can click individual lesson to open the lesson card for details
+  - For the "Available" type lesson you can click the "Take this class" button
+- **Themes Support**
+  - From the top header navigation you can click the theme toggle button
+- **Logout**
+  - Click the logout button then back to the login page
+
 ## ✨ Features Implemented
 
 ### ✅ Core Requirements
