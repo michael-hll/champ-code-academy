@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 96">
+  <defs>
+    <linearGradient id="ccGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#ffd24d" />
+    </linearGradient>
+  </defs>
+
+  <rect width="128" height="96" rx="12" fill="#0ea5e9" />
+
+  <!-- Two separate C letters so we can place pupils inside each -->
+  <text
+    x="40"
+    y="50%"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    alignment-baseline="central"
+    font-family="Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"
+    font-weight="700"
+    font-size="54"
+    fill="url(#ccGrad)"
+  >
+    C
+  </text>
+
+  <text
+    x="88"
+    y="50%"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    alignment-baseline="central"
+    font-family="Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"
+    font-weight="700"
+    font-size="54"
+    fill="url(#ccGrad)"
+  >
+    C
+  </text>
+
+  <!-- Pupils inside each C -->
+  <g>
+    <circle cx="50" cy="48" r="4.5" fill="#0b1723" />
+    <circle cx="98" cy="48" r="4.5" fill="#0b1723" />
+    <!-- small highlights -->
+    <circle cx="48.8" cy="46.8" r="1.2" fill="#ffffff" opacity="0.9" />
+    <circle cx="96.8" cy="46.8" r="1.2" fill="#ffffff" opacity="0.9" />
+  </g>
+</svg>

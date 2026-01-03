@@ -6,8 +6,8 @@ import Button from '../components/common/Button';
 export default function LoginPage() {
   const navigate = useNavigate();
   const { login, isLoading, error, clearError } = useAuthStore();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('tutor@champcode.com');
+  const [password, setPassword] = useState('password123');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
